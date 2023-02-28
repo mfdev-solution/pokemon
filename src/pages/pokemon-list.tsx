@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
+import { Link } from 'react-router-dom';
 import PokemonCard from '../components/pokemon-card';
 import usePockemons from '../hooks/pokemon.hook';
-  
 const PokemonList: FunctionComponent = () => {
   // const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   // useEffect(() => {
@@ -14,7 +14,9 @@ const PokemonList: FunctionComponent = () => {
       <div className="container"> 
         <div className="row"> 
         {pokemons.map(pokemon => (
+       
           <PokemonCard key={pokemon.id} pokemon={pokemon} />
+        
         ))}
         </div>
       </div>
