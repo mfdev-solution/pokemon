@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { Link } from 'react-router-dom';
 import PokemonCard from '../components/pokemon-card';
 import usePockemons from '../hooks/pokemon.hook';
 const PokemonList: FunctionComponent = () => {
