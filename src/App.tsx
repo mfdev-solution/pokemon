@@ -12,13 +12,26 @@ useEffect(()=>{
 },[]);
  return (
   <div>
-    <h1>Pokedex</h1>
-    <p>Il y a {pokemons.length} pokemons</p>
-    <ul>
-        {pokemons.map(({name} )=>(
-            <li key={name} >{ name}</li>
-        ))}
-    </ul>
+    <h1 className='center'>Pokedex</h1>
+    <div className="container">
+        <div className="row">
+            {pokemons.map(({id,name,picture,created})=>(
+                <div className="col s6 m4" key={id}>
+                    <div className="card horizontal">
+                        <div className="card-image">
+                            <img src={picture} alt={name} />
+                        </div>
+                        <div className="card-stacked">
+                            <div className="card-content">
+                                <p>{name}</p>
+                                <p><small>{created.toString()}</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
   </div>
  )
 }
