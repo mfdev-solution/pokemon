@@ -1,14 +1,13 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
-import Pokemon from '../model/pokemon'
-import POKEMONS from '../model/mock-pokemon';
+import React, { FunctionComponent } from 'react';
 import PokemonCard from '../components/pokemon-card';
+import usePockemons from '../hooks/pokemon.hook';
   
 const PokemonList: FunctionComponent = () => {
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-  useEffect(() => {
-    setPokemons(POKEMONS);
-  }, []);
-  
+  // const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  // useEffect(() => {
+  //   setPokemons(POKEMONS);
+  // }, []);
+  const pokemons = usePockemons()
   return (
     <div>
       <h1 className="center">Pokédex</h1>
