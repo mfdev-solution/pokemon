@@ -14,6 +14,11 @@ useEffect(()=>{
   <div>
     <h1>Pokedex</h1>
     <p>Il y a {pokemons.length} pokemons</p>
+    <ul>
+        {pokemons.map(({name} )=>(
+            <li key={name} >{ name}</li>
+        ))}
+    </ul>
   </div>
  )
 }
