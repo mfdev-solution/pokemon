@@ -25,6 +25,17 @@ export default class PokemonService {
     .catch(err => this.handleError(err));
   }
  
+  static deletePokemon(pokemon:Pokemon):Promise<{}>{
+
+      return fetch(`http://localhost:3001/pokemons/${pokemon.id}`,{
+        method: 'DELETE',
+        headers: { 'Content-Type':'application/json'}
+      })
+      .then(response => response.json())
+      .catch(err => this.handleError(err));
+    
+  }
+  
   static isEmpty(data: Object): boolean {
     return Object.keys(data).length === 0;
   }

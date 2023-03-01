@@ -22,17 +22,6 @@
       ]
     },
     {
-      "id": 3,
-      "name": "Carapuce",
-      "hp": 21,
-      "cp": "5",
-      "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png",
-      "types": [
-        "Eau"
-      ],
-      "created": "2023-03-01T12:13:36.071Z"
-    },
-    {
       "id": 4,
       "name": "Aspicot",
       "hp": 16,
