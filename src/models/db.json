@@ -50,7 +50,8 @@
       "cp": "13",
       "picture": "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/019.png",
       "types": [
-        "Normal"
+        "Normal",
+        "Feu"
       ],
       "created": "2023-03-01T12:01:23.219Z"
     },
@@ -123,6 +124,17 @@
       "picture": "http://assets.pokemon.com/assets/cms2/img/pokedex/detail/123.png",
       "types": [
         "Normal"
+      ]
+    },
+    {
+      "id": 1677687521297,
+      "hp": 100,
+      "cp": 10,
+      "name": "mfdev_pockemon",
+      "picture": "http://assets.pokemon.com/assets/cms2/img/pokedex/detail/125.png",
+      "types": [
+        "Normal",
+        "Psy"
       ]
     }
   ]
