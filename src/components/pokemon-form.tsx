@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Pokemon from '../models/pokemon';
 import formatType from '../helpers/format-type';
 import { log } from 'console';
+import PokemonService from '../services/pokemon-service';
   
 type Props = {
   pokemon: Pokemon
@@ -63,23 +64,31 @@ const selecType = (type:string,e: React.ChangeEvent<HTMLInputElement>):void =>{
 const handleSubmit = (e:React.FormEvent<HTMLFormElement>) =>{
 
     e.preventDefault();
-    // console.log(form);
-    if(validateForm()) history.push(`/pokemons/${pokemon.id}`)
+    
+    if(validateForm()){
+      pokemon.name = form.name.value;
+      pokemon.cp = form.cp.value;
+      pokemon.hp = form.hp.value;
+      pokemon.types = form.types.value;
+
+      PokemonService.updatePokemon(pokemon)
+      // .then((pok) => console.log(pok))
+      .then(() => history.push(`/pokemons/${pokemon.id}`) )
+    }
+      
     
 }
 const validateForm = ()=> {
     let newForm : Form = form;
     //Validator name
-    // if(!/^[a-zA-Z]àéè{3,25}$/.test(form.name.value)){
-    //     const errorMessage : string = "Le nom du pokemon est requis (1-25)";
-    //     const newField : Field = {value:form.name.value,error:errorMessage,isValid:false};
-    //     newForm = { ...newForm,...{name:newField}};
-    // }else{
-    //     const newField : Field = {value:form.name.value,error:"",isValid:true}
-    //     newForm = { ...newForm,...{name:newField}}
-    // }
-    const newField : Field = {value:form.name.value,error:"",isValid:true}
-    newForm = { ...newForm,...{name:newField}}
+    if(!/^[a-zA-Zéè]{3,25}$/.test(form.name.value)){
+        const errorMessage : string = "Le nom du pokemon est requis (1-25)";
+        const newField : Field = {value:form.name.value,error:errorMessage,isValid:false};
+        newForm = { ...newForm,...{name:newField}};
+    }else{
+        const newField : Field = {value:form.name.value,error:"",isValid:true}
+        newForm = { ...newForm,...{name:newField}}
+    }
     //Validator hp
     if(!/^[0-9]{1,2}$/.test(form.hp.value)){
         const errorMessage : string = "Les point de vie du pokemon sont compris entre 0 et 999";
@@ -100,7 +109,7 @@ const validateForm = ()=> {
     }
 
     setForm(newForm)
-    console.log(newForm.name.isValid , newForm.hp.isValid , newForm.cp.isValid);
+    // console.log(newForm.name.isValid , newForm.hp.isValid , newForm.cp.isValid);
     
     return newForm.name.isValid && newForm.hp.isValid && newForm.cp.isValid;
 }
