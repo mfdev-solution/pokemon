@@ -114,6 +114,16 @@
       "types": [
         "Feu"
       ]
+    },
+    {
+      "id": 13,
+      "hp": "26",
+      "cp": 10,
+      "name": "New",
+      "picture": "http://assets.pokemon.com/assets/cms2/img/pokedex/detail/123.png",
+      "types": [
+        "Normal"
+      ]
     }
   ]
 }
