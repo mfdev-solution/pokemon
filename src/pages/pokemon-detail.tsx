@@ -12,7 +12,8 @@ const PokemonsDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match 
   const [pokemon, setPokemon] = useState<Pokemon|null>(null);
   
   useEffect(() => {
-    PokemonService.getPokemon(parseInt( match.params.id) ).then(pokemon => setPokemon(pokemon))
+    PokemonService.getPokemon(parseInt( match.params.id) )
+    .then(pokemon => setPokemon(pokemon))
   }, [match.params.id]);
     
   return (
@@ -53,7 +54,7 @@ const PokemonsDetail: FunctionComponent<RouteComponentProps<Params>> = ({ match 
                       </tr> 
                       <tr> 
                         <td>Date de création</td> 
-                        <td>{formatDate(pokemon.created= new Date)}</td> 
+                        <td>{formatDate(pokemon.created= new Date())}</td> 
                       </tr>
                     </tbody>
                   </table>
