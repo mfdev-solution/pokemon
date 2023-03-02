@@ -1,63 +1,112 @@
 import Pokemon from "../models/pokemon";
- 
+import POKEMONS from "../models/mock-pokemon";
+  
 export default class PokemonService {
- 
+  
+  static pokemons:Pokemon[] = POKEMONS;
+  
+  static isDev = (!process.env.NODE_ENV || process.env.NODE_ENV === 'development');
+  
   static getPokemons(): Promise<Pokemon[]> {
-    return fetch('http://localhost:3001/pokemons')
+    if(this.isDev) {
+      return fetch('http://localhost:3001/pokemons')
       .then(response => response.json())
-      .catch(err => this.handleError(err))
+      .catch(error => this.handleError(error));
+    }
+  
+    return new Promise(resolve => {
+      resolve(this.pokemons);
+    });
   }
- 
+  
   static getPokemon(id: number): Promise<Pokemon|null> {
-    return fetch(`http://localhost:3001/pokemons/${id}`)
+    if(this.isDev) {
+      return fetch(`http://localhost:3001/pokemons/${id}`)
       .then(response => response.json())
       .then(data => this.isEmpty(data) ? null : data)
-      .catch(err => this.handleError(err));
+      .catch(error => this.handleError(error));
+    }
+  
+    return new Promise(resolve => {  
+      const poke = this.pokemons.find( pok => pok.id === id)  
+      resolve(poke||null);
+    }); 
   }
-
+  
   static updatePokemon(pokemon: Pokemon): Promise<Pokemon> {
-    return fetch(`http://localhost:3001/pokemons/${pokemon.id}`,{
-      method: 'PUT',
-      body: JSON.stringify(pokemon),
-      headers: { 'Content-Type':'Application/json' }
-    })
-    .then(response => response.json())
-    .catch(err => this.handleError(err));
-  }
- 
-  static deletePokemon(pokemon:Pokemon):Promise<{}>{
-
-      return fetch(`http://localhost:3001/pokemons/${pokemon.id}`,{
-        method: 'DELETE',
-        headers: { 'Content-Type':'application/json'}
+    if(this.isDev) {
+      return fetch(`http://localhost:3001/pokemons/${pokemon.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(pokemon),
+        headers: { 'Content-Type': 'application/json'}
       })
       .then(response => response.json())
-      .catch(err => this.handleError(err));
-    
+      .catch(error => this.handleError(error));
+    }
+  
+    return new Promise(resolve => {
+      const { id } = pokemon;
+      const index = this.pokemons.findIndex(pokemon => pokemon.id === id);
+      this.pokemons[index] = pokemon;
+      resolve(pokemon);
+    }); 
   }
-  static addPokemon (pokemon:Pokemon):Promise<Pokemon> {
-    delete pokemon.created
-    return fetch(`http://localhost:3001/pokemons`,{
+  
+  static deletePokemon(pokemon: Pokemon): Promise<{}> {
+    if(this.isDev) {
+      return fetch(`http://localhost:3001/pokemons/${pokemon.id}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json'}
+      })
+      .then(response => response.json())
+      .catch(error => this.handleError(error));
+    }
+  
+    return new Promise(resolve => {    
+      const { id } = pokemon;
+      this.pokemons = this.pokemons.filter(pokemon => pokemon.id !== id);
+      resolve({});
+    }); 
+  }
+  
+  static addPokemon(pokemon: Pokemon): Promise<Pokemon> {
+    pokemon.created = new Date(pokemon.created.toString());
+  
+    if(this.isDev) {
+      return fetch(`http://localhost:3001/pokemons`, {
         method: 'POST',
         body: JSON.stringify(pokemon),
-        headers: { 'Content-Type':'application/json'}
+        headers: { 'Content-Type': 'application/json'}
       })
       .then(response => response.json())
-      .catch(err => this.handleError(err));
-    
+      .catch(error => this.handleError(error));
+    }
+  
+    return new Promise(resolve => {    
+      this.pokemons.push(pokemon);
+      resolve(pokemon);
+    }); 
   }
-
-  static searchPokemon(term:string):Promise<Pokemon[]>{
-    return fetch(`http://localhost:3001/pokemons?q=${term}`)
-    .then(response => response.json())
-    .catch(err => this.handleError(err))
+  
+  static searchPokemon(term: string): Promise<Pokemon[]> {
+    if(this.isDev) {
+      return fetch(`http://localhost:3001/pokemons?q=${term}`)
+      .then(response => response.json())
+      .catch(error => this.handleError(error));
+    }
+  
+    return new Promise(resolve => {    
+      const results = this.pokemons.filter(pokemon => pokemon.name.includes(term));
+      resolve(results);
+    });
+  
   }
-
+  
   static isEmpty(data: Object): boolean {
     return Object.keys(data).length === 0;
   }
-  static handleError(err: Error): void {
-    console.log(err);
-    
+  
+  static handleError(error: Error): void {
+    console.error(error);
   }
 }
